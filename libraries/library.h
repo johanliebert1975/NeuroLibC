@@ -1,58 +1,70 @@
 #pragma once
 
+//---------------------------------------- HEADER FILES -------------------------------------------------------------
 
-// HEADER FILES
 #include <stdio.h>
 #include <stdlib.h>
-#include <string.h>
 #include <math.h>
+#include <time.h>
+#include <string.h>
 
-//DEFINITIONS
+//----------------------------------------- DEFINITIONS --------------------------------------------------------------
 
-    // OUTPUT STATES
-#define SUCCESS 0;
-#define ERROR -1;
+#define INPUT_LAYER_SIZE 64
+#define OUTPUT_LAYER_SIZE 2
 
-    // DATA SIZE AND LENGTH
-#define GRID_SIZE 64  // 8x8 grid flattened
-#define MAX_LABEL_LEN 10
+#define HIDDEN_LAYER1_SIZE 16
+#define HIDDEN_LAYER2_SIZE 8
 
-#define INPUT_NODES 64
-#define HIDDEN_NODES_LAYER1 8
-#define HIDDEN_NODES_LAYER2 8
-#define OUTPUT_NODES 2
+#define SUCCESS 0
+#define ERROR -1
 
-// DATA STRUCTURES
-typedef struct {
-    int grid[GRID_SIZE];  // Flattened 8x8 grid
-    char label[MAX_LABEL_LEN];
+//---------------------------------------- DATA STRUCTURES -----------------------------------------------------------
+
+typedef struct TrainingData {
+    float grid[INPUT_LAYER_SIZE];
+    float label[OUTPUT_LAYER_SIZE];
 } TrainingData;
 
-typedef struct {
-    int grid[GRID_SIZE];
-}InputData;
+typedef struct NeuralNetwork{
 
-// FUNCTION HEADERS
+    float InputData[INPUT_LAYER_SIZE];
+    float HiddenLayer1Data[HIDDEN_LAYER1_SIZE];
+    float HiddenLayer2Data[HIDDEN_LAYER2_SIZE];
+    float OutputData[OUTPUT_LAYER_SIZE];
 
-    // LOADING DATA FUNCTIONS
-int load_training_data(const char *training_data, TrainingData **data, const char *log_file);
-void load_weights(const char *filename, float weights[64][8], const char *log_file);
-void load_biases(const char *filename, float biases[8], const char *log_file);
+    float Weights_Layer1[INPUT_LAYER_SIZE][HIDDEN_LAYER1_SIZE];
+    float Weights_Layer2[HIDDEN_LAYER1_SIZE][HIDDEN_LAYER2_SIZE];
+    float Weights_Layer3[HIDDEN_LAYER2_SIZE][OUTPUT_LAYER_SIZE];
 
-    // NETWORK FUNCTIONS
-void forward_pass(float input[INPUT_NODES], float output[OUTPUT_NODES],float weights1[64][8], float weights2[8][8], float weights3[8][2], float biases1[8], float biases2[8], float biases3[2]);
-void backward_pass(float output[OUTPUT_NODES], float input[INPUT_NODES], char *label, float weights1[64][8], float weights2[8][8], float weights3[8][2],float biases1[8], float biases2[8], float biases3[2]);
-void update_weights_and_biases(float weights1[64][8], float weights2[8][8], float weights3[8][2],
-                                float biases1[8], float biases2[8], float biases3[2],
-                                float d_weights1[64][8], float d_weights2[8][8], float d_weights3[8][2],
-                                float d_biases1[8], float d_biases2[8], float d_biases3[2],
-                                float learning_rate);
+    float Biases_Layer1[HIDDEN_LAYER1_SIZE];
+    float Biases_Layer2[HIDDEN_LAYER2_SIZE];
+    float Biases_Layer3[OUTPUT_LAYER_SIZE];
+    
+}Classifier;
 
-    // FILE I/O FUNCTIONS
-void save_weights(float weights[][8], int rows, int cols, const char* filename);
-void save_biases(float biases[], int size, const char* filename);
-void save_weights_and_biases();
+//--------------------------------------- FUNCTION HEADERS ----------------------------------------------------------
+   
+    // CONSOLE FUNCTIONS
+void DisplayArray(int* array, int size);
+float x_rand(int min,int max);
+int Initialize_Weights_Biases(Classifier* _Classifier);
 
-    // TRAINING FUNCTION
-void train(const char *training_data);
-float compute_loss(float output[], char *label);
+        // ACTIVATION FUNCTIONS
+float relu(float x);
+float relu_derivative(float x);
+float sigmoid(float x);
+float sigmoid_derivative(float x);
+
+        // COST FUNTION
+float Binary_Cross_Entropy_Cost(float* predicted_output, float* true_label);
+
+    // FILE_IO FUNCTIONS
+int Load_TrainingData(TrainingData* _TrainingData);
+int Save_Weights_Biases(Classifier* _Classifier);
+int Load_Weights_Biases(Classifier* _Classifier);
+
+    // TRAIN_NN FUNCTIONS
+int Forward_Propagation(Classifier* _Classifier, float* InputData);
+int Back_Propagation(Classifier* _Classifier,float* Expected_Output);
+int Train_Classifier(Classifier* _Classifier, TrainingData* _TrainingData, int epochs);

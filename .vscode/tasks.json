@@ -8,11 +8,13 @@
                 "-fdiagnostics-color=always",
                 "-g",
                 "${file}",
-                "${workspaceFolder}\\libraries\\library.c",
+                "${workspaceFolder}\\Libraries\\TrainNN.c",
+                "${workspaceFolder}\\Libraries\\File_IO.c",
+                "${workspaceFolder}\\Libraries\\ConsoleFunctions.c",
                 "-o",
                 "${fileDirname}\\${fileBasenameNoExtension}.exe",
                 "-I",
-                "${workspaceFolder}\\libraries"
+                "${workspaceFolder}\\Libraries"
             ],
             "options": {
                 "cwd": "${fileDirname}"
