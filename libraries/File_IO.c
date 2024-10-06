@@ -128,7 +128,7 @@ int Save_Weights_Biases(Classifier* _Classifier){
         fprintf(Biases,"%.2f,",_Classifier->Biases_Layer3[i]);
     }
     fclose(Biases);
-
+    printf("Saved Weights and Biases to respective files");
     return SUCCESS;
 }
 

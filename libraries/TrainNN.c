@@ -39,12 +39,10 @@ int Forward_Propagation(Classifier* _Classifier, float* InputData) {
     return SUCCESS;
 }
 
-int Back_Propagation(Classifier* _Classifier,float* Expected_Output){
+int Back_Propagation(Classifier* _Classifier,float* Expected_Output,float learning_rate){
     float OutputError[OUTPUT_LAYER_SIZE];
     float HiddenLayer2Error[HIDDEN_LAYER2_SIZE];
     float HiddenLayer1Error[HIDDEN_LAYER1_SIZE];
-
-    float learning_rate = 0.008;
 
     // 1. Compute output layer error (for sigmoid + binary cross-entropy)
     for (size_t i = 0; i < OUTPUT_LAYER_SIZE; i++)
@@ -52,13 +50,15 @@ int Back_Propagation(Classifier* _Classifier,float* Expected_Output){
         OutputError[i] = _Classifier->OutputData[i] - Expected_Output[i];
     }
     // 2. Backpropagate error to the second hidden layer
-    for (size_t i = 0; i < HIDDEN_LAYER2_SIZE; i++) {
-        HiddenLayer2Error[i] = 0;
-        for (size_t j = 0; j < OUTPUT_LAYER_SIZE; j++) {
-            HiddenLayer2Error[i] += OutputError[j] * _Classifier->Weights_Layer3[i][j];
-        }
-        HiddenLayer2Error[i] *= relu_derivative(_Classifier->HiddenLayer2Data[i]);
+for (size_t i = 0; i < HIDDEN_LAYER2_SIZE; i++) {
+    HiddenLayer2Error[i] = 0;
+    for (size_t j = 0; j < OUTPUT_LAYER_SIZE; j++) {
+        HiddenLayer2Error[i] += OutputError[j] * _Classifier->Weights_Layer3[i][j]; 
     }
+    HiddenLayer2Error[i] *= relu_derivative(_Classifier->HiddenLayer2Data[i]);
+}
+
+
 
     // 3. Backpropagate error to the first hidden layer
     for (size_t i = 0; i < HIDDEN_LAYER1_SIZE; i++) {
@@ -96,14 +96,17 @@ int Back_Propagation(Classifier* _Classifier,float* Expected_Output){
     return SUCCESS;
 }
 
-int Train_Classifier(Classifier* _Classifier, TrainingData* _TrainingData, int epochs){
+int Train_Classifier(Classifier* _Classifier, TrainingData* _TrainingData, int epochs,float initial_learning_rate){
     int num_Samples = Load_TrainingData(_TrainingData);
     Load_Weights_Biases(_Classifier);
 
+    
+    float decay_rate = 0.05;
     // Loop over epochs
     for (int epoch = 0; epoch < epochs; epoch++) {
         float total_cost = 0.0;
 
+        float learning_rate = initial_learning_rate * exp(-decay_rate * epoch);
         // Loop over samples in the training set
         for (size_t i = 0; i < num_Samples; i++) {
             // Forward propagation
@@ -114,12 +117,11 @@ int Train_Classifier(Classifier* _Classifier, TrainingData* _TrainingData, int e
             total_cost += cost;
 
             // Backpropagation
-            Back_Propagation(_Classifier, _TrainingData[i].label);
+            Back_Propagation(_Classifier, _TrainingData[i].label,learning_rate);
         }
 
         // Average cost for the epoch
         printf("Epoch %d: Average Cost = %.4f\n", epoch, (total_cost / num_Samples));
-        
-    return SUCCESS;
     }
+    return SUCCESS;
 }
