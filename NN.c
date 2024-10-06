@@ -4,45 +4,34 @@
 int main() {
     Classifier* _Classifier = (Classifier*)malloc(sizeof(Classifier));
     TrainingData* _TrainingData = (TrainingData*)malloc(100*sizeof(TrainingData));
-    
-    Train_Classifier(_Classifier,_TrainingData,3);
 
-    printf("Weights Layer1\n");
-    for (size_t i = 0; i < INPUT_LAYER_SIZE; i++)
-    {
-        for (size_t j = 0; j < HIDDEN_LAYER1_SIZE; j++)
-        {
-            printf("%.2f ",_Classifier->Weights_Layer1[i][j]);
-        }
-        printf("\n");
-    }
-    printf("Weights Layer 2\n");
-    for (size_t i = 0; i < HIDDEN_LAYER1_SIZE; i++)
-    {
-        for (size_t j = 0; j < HIDDEN_LAYER2_SIZE; j++)
-        {
-            printf("%.2f ",_Classifier->Weights_Layer2[i][j]);
-        }
-        printf("\n");
-    }
-    printf("Weights Layer 3\n");\
-    for (size_t i = 0; i < HIDDEN_LAYER2_SIZE; i++)
-    {
-        for (size_t j = 0; j < OUTPUT_LAYER_SIZE; j++)
-        {
-            printf("%.2f ",_Classifier->Weights_Layer2[i][j]);
-        }
-        printf("\n");
-    }
-    printf("New Output for the same Training Data: ");
-    
-    Forward_Propagation(_Classifier,_TrainingData[0].grid);
-    for (size_t i = 0; i < OUTPUT_LAYER_SIZE; i++)
-    {
-        printf("%.2f ",_Classifier->OutputData[i]);
-    }
-    
+//---------------------- INITIALIZE NEW RANDOM WEIGHTS AND BIASES ------------------------------------------
+   /* NOTE when trying to initialize the weights and biases always use the srand function in the main */
+   
+    // Initialize_Weights_Biases(_Classifier);
+    // Save_Weights_Biases(_Classifier);
 
+//----------------------- TRAIN NEURAL NETWORK ---------------------------------------------------------------
+    
+    // float initial_learning_rate = 0.00001;
+
+    // Load_Weights_Biases(_Classifier);
+    // Load_TrainingData(_TrainingData);
+
+    // Train_Classifier(_Classifier,_TrainingData,5,initial_learning_rate);
+    // Save_Weights_Biases(_Classifier);
+
+// ------------------- PREDICT THE DIGIT --------------------------------------------------------------------
+
+    // Load_Weights_Biases(_Classifier);
+    // float input[] = {0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,0,0,0,1,1,1,0,0,0,0,0,1,1,1,1,1,1,1,0};
+    
+    // Forward_Propagation(_Classifier,input);
+    // for (size_t i = 0; i < OUTPUT_LAYER_SIZE; i++)
+    // {
+    //     printf("%.2f ",_Classifier->OutputData[i]);
+    // }
+    
     free(_Classifier);
     free(_TrainingData);
 

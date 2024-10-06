@@ -14,17 +14,17 @@ float x_rand(int min,int max){
 int Initialize_Weights_Biases(Classifier* _Classifier) {
     for (size_t i = 0; i < INPUT_LAYER_SIZE; i++) {
         for (size_t j = 0; j < HIDDEN_LAYER1_SIZE; j++) {
-            _Classifier->Weights_Layer1[i][j] = x_rand(0, 400);
+            _Classifier->Weights_Layer1[i][j] = x_rand(-300, 400);
         }
     }
     for (size_t i = 0; i < HIDDEN_LAYER1_SIZE; i++) {
         for (size_t j = 0; j < HIDDEN_LAYER2_SIZE; j++) {
-            _Classifier->Weights_Layer2[i][j] = x_rand(0, 400);
+            _Classifier->Weights_Layer2[i][j] = x_rand(-300, 400);
         }
     }
     for (size_t i = 0; i < HIDDEN_LAYER2_SIZE; i++) {
         for (size_t j = 0; j < OUTPUT_LAYER_SIZE; j++) {
-            _Classifier->Weights_Layer3[i][j] = x_rand(0, 400);
+            _Classifier->Weights_Layer3[i][j] = x_rand(-300, 400);
         }
     }
     for (size_t i = 0; i < HIDDEN_LAYER1_SIZE; i++) {
@@ -62,17 +62,10 @@ float sigmoid_derivative(float x) {
     return sig * (1 - sig);
 }
 
-float Binary_Cross_Entropy_Cost(float* predicted_output, float* true_label) {
+float Binary_Cross_Entropy_Cost(float* predicted, float* actual) {
     float cost = 0.0;
-
-    // Loop over each output (assuming a small number of output neurons, likely 1 or 2 for binary classification)
     for (size_t i = 0; i < OUTPUT_LAYER_SIZE; i++) {
-        // Ensure predicted_output[i] is within valid range to avoid log(0)
-        float predicted = fmax(fmin(predicted_output[i], 1.0 - 1e-7), 1e-7);
-        
-        cost += -true_label[i] * log(predicted) - (1.0 - true_label[i]) * log(1.0 - predicted);
+        cost += actual[i] * log(predicted[i] + 1e-15) + (1 - actual[i]) * log(1 - predicted[i] + 1e-15); // Add small value for stability
     }
-
-    // Return the average cost over the output neurons
-    return cost / OUTPUT_LAYER_SIZE;
+    return -cost / OUTPUT_LAYER_SIZE;
 }

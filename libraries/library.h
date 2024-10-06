@@ -66,5 +66,5 @@ int Load_Weights_Biases(Classifier* _Classifier);
 
     // TRAIN_NN FUNCTIONS
 int Forward_Propagation(Classifier* _Classifier, float* InputData);
-int Back_Propagation(Classifier* _Classifier,float* Expected_Output);
-int Train_Classifier(Classifier* _Classifier, TrainingData* _TrainingData, int epochs);
+int Back_Propagation(Classifier* _Classifier,float* Expected_Output,float learning_rate);
+int Train_Classifier(Classifier* _Classifier, TrainingData* _TrainingData, int epochs,float initial_learning_rate);
