@@ -6,8 +6,9 @@ int main() {
     TrainingData* _TrainingData = (TrainingData*)malloc(100*sizeof(TrainingData));
 
 //---------------------- INITIALIZE NEW RANDOM WEIGHTS AND BIASES ------------------------------------------
+
    /* NOTE when trying to initialize the weights and biases always use the srand function in the main */
-   // WTH
+
     // Initialize_Weights_Biases(_Classifier);
     // Save_Weights_Biases(_Classifier);
 
