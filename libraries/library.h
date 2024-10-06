@@ -49,6 +49,7 @@ typedef struct NeuralNetwork{
 void DisplayArray(int* array, int size);
 float x_rand(int min,int max);
 int Initialize_Weights_Biases(Classifier* _Classifier);
+int ValidateFile(FILE* Filename);
 
         // ACTIVATION FUNCTIONS
 float relu(float x);

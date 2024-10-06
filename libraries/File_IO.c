@@ -4,12 +4,6 @@ int Load_TrainingData(TrainingData* _TrainingData){
     FILE* TrInputfile = fopen("Training Data/TrainingDataInputs.csv", "r");
     FILE* TrOutputfile = fopen("Training Data/TrainingDataOutputs.csv", "r");
 
-    if (TrInputfile == NULL) {
-        perror("Error opening Training Data Input file");
-        free(_TrainingData);  // Free allocated memory in case of failure
-        return EXIT_FAILURE;
-    }
-    
     if (TrOutputfile == NULL) {
         perror("Error opening Training Data Output file");
         fclose(TrInputfile);
@@ -17,7 +11,25 @@ int Load_TrainingData(TrainingData* _TrainingData){
         return EXIT_FAILURE;
     }
 
-    char inputbuffer[200];  // Increase buffer size to handle longer lines
+    if (TrOutputfile == NULL) {
+        perror("Error opening Training Data Output file");
+        fclose(TrInputfile);
+        free(_TrainingData);  // Free allocated memory in case of failure
+        return EXIT_FAILURE;
+    }
+    if (ValidateFile(TrInputfile) == 0 && ValidateFile(TrOutputfile) == 0)
+    {
+        printf("Started Loading Training Data\n");
+    }
+    
+    int inputbufferSize = 256;
+    if(inputbufferSize < INPUT_LAYER_SIZE)
+    {
+        printf("Buffer size readjusted\n");
+        inputbufferSize = 2048;
+    }
+    
+    char inputbuffer[inputbufferSize];  // Increase buffer size to handle longer lines
     char outputbuffer[200]; // Increase buffer size to handle longer lines
 
     int data_index = 0;
@@ -41,6 +53,8 @@ int Load_TrainingData(TrainingData* _TrainingData){
 
     fclose(TrInputfile);
     fclose(TrOutputfile);
+
+    printf("Sucessfully Loaded the Training Data\n");
     return data_index;
 }
 
@@ -128,7 +142,8 @@ int Save_Weights_Biases(Classifier* _Classifier){
         fprintf(Biases,"%.2f,",_Classifier->Biases_Layer3[i]);
     }
     fclose(Biases);
-    printf("Saved Weights and Biases to respective files");
+
+    printf("Saved Weights and Biases to respective files\n");
     return SUCCESS;
 }
 
@@ -243,5 +258,7 @@ int Load_Weights_Biases(Classifier* _Classifier) {
     }
     fclose(Biases);
     
+    printf("Successfully Loaded the Weights and biases into the Classifier\n");
+
     return SUCCESS;
 }
