@@ -19,6 +19,7 @@ float* Load_Unclassified_Data(float* input){
 }
 
 int main() {
+    srand(time(0));
     Classifier* _Classifier = (Classifier*)malloc(sizeof(Classifier));
     TrainingData* _TrainingData = (TrainingData*)malloc(100*sizeof(TrainingData));
 
@@ -31,7 +32,7 @@ int main() {
 
 //----------------------- TRAIN NEURAL NETWORK ---------------------------------------------------------------
     
-    // float initial_learning_rate = 0.00015;
+    // float initial_learning_rate = 0.0001;
 
     // Train_Classifier(_Classifier,_TrainingData,50,initial_learning_rate);
     // Save_Weights_Biases(_Classifier);
@@ -55,7 +56,6 @@ int main() {
     else{
         printf("The Drawn Integer is not a 2\n");
     }
-    
     
     free(_Classifier);
     free(_TrainingData);
