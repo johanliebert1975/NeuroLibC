@@ -39,6 +39,15 @@ int Initialize_Weights_Biases(Classifier* _Classifier) {
     return SUCCESS;
 }
 
+int ValidateFile(FILE* Filename){
+    if (Filename == NULL)
+    {
+        perror("Error Opening file");
+        return ERROR;
+    }
+    return SUCCESS;
+}
+
 //-------------------------------- ACTIVATION FUNCTIONS --------------------------------
 
 // ReLU Activation Function

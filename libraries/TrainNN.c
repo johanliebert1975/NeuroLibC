@@ -58,8 +58,6 @@ for (size_t i = 0; i < HIDDEN_LAYER2_SIZE; i++) {
     HiddenLayer2Error[i] *= relu_derivative(_Classifier->HiddenLayer2Data[i]);
 }
 
-
-
     // 3. Backpropagate error to the first hidden layer
     for (size_t i = 0; i < HIDDEN_LAYER1_SIZE; i++) {
         HiddenLayer1Error[i] = 0;
@@ -123,5 +121,6 @@ int Train_Classifier(Classifier* _Classifier, TrainingData* _TrainingData, int e
         // Average cost for the epoch
         printf("Epoch %d: Average Cost = %.4f\n", epoch, (total_cost / num_Samples));
     }
+    printf("Classifier Trained Successfully\n");
     return SUCCESS;
 }

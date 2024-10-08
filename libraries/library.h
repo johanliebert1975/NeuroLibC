@@ -49,6 +49,7 @@ typedef struct NeuralNetwork{
 void DisplayArray(int* array, int size);
 float x_rand(int min,int max);
 int Initialize_Weights_Biases(Classifier* _Classifier);
+int ValidateFile(FILE* Filename);
 
         // ACTIVATION FUNCTIONS
 float relu(float x);
@@ -63,6 +64,7 @@ float Binary_Cross_Entropy_Cost(float* predicted_output, float* true_label);
 int Load_TrainingData(TrainingData* _TrainingData);
 int Save_Weights_Biases(Classifier* _Classifier);
 int Load_Weights_Biases(Classifier* _Classifier);
+float* Load_Unclassified_Data(float* input);
 
     // TRAIN_NN FUNCTIONS
 int Forward_Propagation(Classifier* _Classifier, float* InputData);
