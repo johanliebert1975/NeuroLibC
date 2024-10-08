@@ -262,3 +262,21 @@ int Load_Weights_Biases(Classifier* _Classifier) {
 
     return SUCCESS;
 }
+
+float* Load_Unclassified_Data(float* input){
+    FILE* input_file = fopen("UnclassifiedInput.csv","r");
+    if(ValidateFile(input_file)){
+        return NULL;
+    }
+    char buffer[2048];
+    while (fgets(buffer,sizeof(buffer),input_file) != NULL)
+    {
+        char* token = strtok(buffer,",");
+        for (size_t i = 0; i < INPUT_LAYER_SIZE; i++)
+        {
+            input[i] = atof(token);
+            token = strtok(NULL,",");
+        }
+    }
+    return input;
+}

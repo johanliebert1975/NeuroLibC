@@ -1,27 +1,9 @@
 #include "library.h"
 
-float* Load_Unclassified_Data(float* input){
-    FILE* input_file = fopen("UnclassifiedInput.csv","r");
-    if(ValidateFile(input_file)){
-        return NULL;
-    }
-    char buffer[2048];
-    while (fgets(buffer,sizeof(buffer),input_file) != NULL)
-    {
-        char* token = strtok(buffer,",");
-        for (size_t i = 0; i < INPUT_LAYER_SIZE; i++)
-        {
-            input[i] = atof(token);
-            token = strtok(NULL,",");
-        }
-    }
-    return input;
-}
-
 int main() {
     srand(time(0));
     Classifier* _Classifier = (Classifier*)malloc(sizeof(Classifier));
-    TrainingData* _TrainingData = (TrainingData*)malloc(100*sizeof(TrainingData));
+    TrainingData* _TrainingData = (TrainingData*)malloc(200*sizeof(TrainingData));
 
 //---------------------- INITIALIZE NEW RANDOM WEIGHTS AND BIASES ------------------------------------------
 
@@ -32,9 +14,9 @@ int main() {
 
 //----------------------- TRAIN NEURAL NETWORK ---------------------------------------------------------------
     
-    // float initial_learning_rate = 0.0001;
+    // float initial_learning_rate = 0.0003;
 
-    // Train_Classifier(_Classifier,_TrainingData,50,initial_learning_rate);
+    // Train_Classifier(_Classifier,_TrainingData,100,initial_learning_rate);
     // Save_Weights_Biases(_Classifier);
 
 // ------------------- PREDICT THE DIGIT --------------------------------------------------------------------
